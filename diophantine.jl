@@ -1,32 +1,28 @@
-function theorem2_9(a, b, c)
-  d, r, s = gcdx(a, b)
-  rem(c, d) == 0 || throw(DomainError((a = a, b = b, c = c), "gcd($a, $b) = $d does not divide $c; so, no solutions to $(a)x + $(b)y = $c"))
+function theorem2_9(𝑎, 𝑏, 𝑐)
+  𝑑, 𝑟, 𝑠 = gcdx(𝑎, 𝑏)
+  rem(𝑐, 𝑑) == 0 || DomainError((𝑎 = 𝑎, 𝑏 = 𝑏, 𝑐 = 𝑐), "gcd($𝑎, $𝑏) = $𝑑 does not divide $𝑐; so, no solutions to $(𝑎)𝑥 + $(𝑏)𝑦 = $𝑐")
   (
-      x0 = r * c ÷ d,
-      dx = b ÷ d,
-      y0 = s * c ÷ d,
-      dy = a ÷ d
+      𝑥₀ = 𝑟 * 𝑐 ÷ 𝑑,
+      𝛿ˣ = 𝑏 ÷ 𝑑,
+      𝑦₀ = 𝑠 * 𝑐 ÷ 𝑑,
+      𝛿ʸ = 𝑎 ÷ 𝑑
   )
 end
 
-function diophantine(a, b, c)
+function diophantine(𝑎, 𝑏, 𝑐)
   try
-      solutions = theorem2_9(a, b, c)
-      "$(a)x + $(b)y = $c has solutions x = $(solutions.x0) + $(solutions.dx)t, y = $(solutions.y0) − $(solutions.dy)t; t an integer"
+      solutions = theorem2_9(𝑎, 𝑏, 𝑐)
+      "$(𝑎)𝑥 $(𝑏 < 0 ? '−' : '+') $(abs(𝑏))𝑦 = $𝑐 has solutions 𝑥 = $(solutions.𝑥₀) $(solutions.𝛿ˣ < 0 ? '−' : '+') $(abs(solutions.𝛿ˣ))𝑡, 𝑦 = $(solutions.𝑦₀) $(solutions.𝛿ʸ < 0 ? '+' : '−') $(abs(solutions.𝛿ʸ))𝑡; 𝑡 ∈ ℤ"
   catch e
       e
   end
 end
 
-function diophantine(a, b, c, range)
-  try
-      solutions = theorem2_9(a, b, c)
-      for t in range
-          x = solutions.x0 + solutions.dx * t
-          y = solutions.y0 - solutions.dy * t
-          println((t = t, x = x, y = y))
-      end
-  catch e
-      e
-  end
+function diophantine(𝑎, 𝑏, 𝑐, range)
+  𝑥₀, 𝛿ˣ, 𝑦₀, 𝛿ʸ = theorem2_9(𝑎, 𝑏, 𝑐)
+  [(
+    𝑡 = 𝑡,
+    𝑥 = 𝑥₀ + 𝛿ˣ * 𝑡,
+    𝑦 = 𝑦₀ - 𝛿ʸ * 𝑡
+  ) for 𝑡 in range]
 end
