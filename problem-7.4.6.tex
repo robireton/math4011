@@ -1,0 +1,37 @@
+\documentclass[12pt]{article}
+\usepackage[top=1.0in, bottom=1.0in, left=1.0in, right=2.5in]{geometry}
+\usepackage{fancyhdr, textpos, faktor, enumerate}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{ebgaramond-maths}
+
+\pagestyle{fancy}
+\fancyhf{}
+\setlength\headheight{28pt}
+\setlength\headwidth{7in}
+\setlength{\TPHorizModule}{1pt}
+\setlength{\TPVertModule}{1pt}
+\lhead{\textsc{Number Theory}}
+\rhead{\textsc{March 10, 2020}}
+\chead{\textsc{Rob Ireton}}
+
+\newenvironment{exercise}[2]{\begin{textblock}{32}[1,0](0,#2)\noindent#1\end{textblock}}{\vspace{1in}}
+
+\begin{document}
+
+\begin{exercise}{7.4.6}{6}
+  {\noindent}Verify the formula $\sum_{d=1}^{n}{\phi(d)\lfloor n/d \rfloor} = n(n+1)/2$ for any positive integer n.
+
+  \begin{proof}
+    Let $F(m) = \sum\limits_{d \mid m} \phi(d)$. Then
+    \begin{align*}
+        \sum_{d=1}^n \phi(d) \left\lfloor \frac{n}{d} \right\rfloor &= \sum_{k=1}^n F(k)  & \textit{ Theorem 6.11}\\
+        &= \sum_{k=1}^n \sum_{r \mid k} \phi(r) & \\
+        &= \sum_{k=1}^n k  & \textit{ Theorem 7.6}\\
+        &= 1 + 2 + \cdots + n & \\
+        &= \frac{n(n+1)}{2} & 
+    \end{align*}
+    which is the desired result.
+  \end{proof}
+\end{exercise}
+
+\end{document}
