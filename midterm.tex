@@ -13,6 +13,7 @@
 \setlength{\TPHorizModule}{1pt}
 \setlength{\TPVertModule}{1pt}
 \setlength{\tabcolsep}{1em}
+\linespread{1.2}
 \lhead{\textsc{Number Theory}}
 \rhead{\textsc{Midterm}}
 \chead{\textsc{Rob Ireton}}
@@ -48,4 +49,8 @@ Multiplication is easy: just add digits. $(7)_{10} \times (18)_{10} = (126)_{10}
 Addition, however, is a problem. Besides not having an identity element (no zero), the well-known algorithms just don't apply. $(1)_p + (10)_p = (100)_p$ [$2+3=5$] may look promising, but things like $(21)_p + (102)_p = (10000001)_p$ [$18+20=38$] and $(1000000)_p + (10000000)_p = (22)_p$ [$17+19=36$] induce despair. We have also given up being able to sort numbers lexicographically. Numbers with fewer digits are not necessarily smaller than numbers with more. Numbers with the same number of digits can't be reliably sorted without doing calculations. For example, $(1000)_p < (20)_p < (12)_p < (5)_p$ is true.
 
 \section*{Divisibility}
+\noindent If we multiply by adding digit-by-digit, then to divide, we subtract digit-by-digit. The digits in our notation are all non-negative integers, so to divide $b$ by $a$, all of the digits of $a$ must be less than or equal to all of the corresponding digits of $b$, ensuring that all of the differences are non-negative. More formally, $a \mid b$ if and only if every digit of $a$ is less than or equal to the corresponding digit of $b$. (We may, of course, pad our numerals on the left with $0$s as needed.) $(11)_p \mid (13)_p$ ($6 \mid 24$) because $1 = 1$ and $1 < 3$. Doing the division shows that $(11)_p \div (13)_p = (2)_p$ ($4$ in decimal). $(20)_p \nmid (12)_p$ ($9 \nmid 12$) because $2 > 1$.
+
+A theorem like, “If $p$ is prime and $p \mid ab$, then $p \mid a$ or $p \mid b$.” has a convenient explanation. “$p$ is prime” means that it looks like a $1$ followed by only $0$s. “$p \mid ab$” means that the digit in $ab$ corresponding to the $1$ in $p$ must be at least $1$. That digit is itself the sum of the corresponding digits of $a$ and $b$. For that digit to be at least one, either $a$ or $b$ has that digit be at least one. That is, $p \mid a$ or $p \mid b$.
+
 \end{document}
