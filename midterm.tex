@@ -19,6 +19,8 @@
 \rhead{\textsc{Midterm}}
 \chead{\textsc{Rob Ireton}}
 \rfoot{\thepage}
+\widowpenalty10000
+\clubpenalty10000
 
 \newcommand{\ppn}[1]{(#1)_p}
 
@@ -46,9 +48,9 @@
 \section*{Some Observations}
 The FTA only applies to positive integers \textit{greater} than one, but we can represent one itself as $2^0$ or $\ppn{0}$. To represent zero we would need to introduce an entirely separate character. $12$ is also $\ppn{12}$, and is the only instance of this for numbers less than $1024$. Digits beyond $0$\textendash$9$ are needed once we get to $1024 = 2^{10}$. We can distinguish even from odd numbers by inspecting the right-most digit. Is it a $0$? Then the number is odd; otherwise, it's even. Square numbers have only $2$s and $0$s; cubes have only $3$s and $0$s, etc. Square-free numbers have only $1$s and $0$s.
 
-Multiplication is easy: just add digits. $7 \times 18 = 126$ becomes $\ppn{1000} \times \ppn{21} = \ppn{1021}$. $9 \times 24 = 216$ becomes $\ppn{20} \times \ppn{13} = \ppn{33}$. Very important: there is no \textit{carry-over} from place to place. To multiply $\ppn{6}$ by $\ppn{15}$ [$64 \times 96 = 6144$ in decimal] will require an additional symbol for the $2$s place: something like $(1\mathrm{B})_p$. In contrast to notations like decimal and binary, which use a fixed repertoire of digits, this notation will need infinitely-many symbols. The Unicode Consortium will not be pleased\ldots.
+Multiplication is easy: just add digits. $7 \times 18 = 126$ becomes $\ppn{1000} \times \ppn{21} = \ppn{1021}$. $9 \times 24 = 216$ becomes $\ppn{20} \times \ppn{13} = \ppn{33}$. Very important: there is no \textit{carry-over} from place to place. To multiply $\ppn{6}$ by $\ppn{15}$ ($64 \times 96 = 6144$ in decimal) will require an additional symbol for the $2$s place: something like $(1\mathrm{B})_p$. In contrast to notations like decimal and binary, which use a fixed repertoire of digits, this notation will need infinitely-many symbols. The Unicode Consortium will not be pleased\ldots.
 
-Addition, however, is a problem. Besides not having an identity element (no zero), the well-known algorithms just don't apply. $\ppn{1} + \ppn{10} = \ppn{100}$ [$2+3=5$] may look promising, but things like $\ppn{21} + \ppn{102} = \ppn{10000001}$ [$18+20=38$] and $\ppn{1000000} + \ppn{10000000} = \ppn{22}$ [$17+19=36$] induce despair. We have also given up being able to sort numbers lexicographically. Numbers with fewer digits are not necessarily smaller than numbers with more. Numbers with the same number of digits can't be reliably sorted without doing calculations. For example, $\ppn{1000} < \ppn{20} < \ppn{12} < \ppn{5}$ is true.
+Addition is problematic. Besides not having an identity element (no zero), the well-known algorithms just don't apply. $\ppn{1} + \ppn{10} = \ppn{100}$ ($2+3=5$) may look promising, but things like $\ppn{21} + \ppn{102} = \ppn{10000001}$ ($18+20=38$) and $\ppn{1000000} + \ppn{10000000} = \ppn{22}$ ($17+19=36$) induce despair. We have also given up being able to sort numbers lexicographically. Numbers with fewer digits are not necessarily smaller than numbers with more. Numbers with the same number of digits can't be reliably sorted without doing calculations. For example, $\ppn{1000} < \ppn{20} < \ppn{12} < \ppn{5}$ is true.
 
 \section*{Divisibility}
 If we multiply by adding digit-by-digit, then to divide, we subtract digit-by-digit. The digits in our notation are all non-negative integers, so to divide $b$ by $a$, all of the digits of $a$ must be less than or equal to all of the corresponding digits of $b$, ensuring that all of the differences are non-negative. More formally, $a \mid b$ if and only if every digit of $a$ is less than or equal to the corresponding digit of $b$. (We may, of course, pad our numerals on the left with $0$s as needed.) $\ppn{11} \mid \ppn{13}$ ($6 \mid 24$) because $1 = 1$ and $1 < 3$. Doing the division shows that $\ppn{11} \div \ppn{13} = \ppn{2}$ ($4$ in decimal). $\ppn{20} \nmid \ppn{12}$ ($9 \nmid 12$) because $2 > 1$.
@@ -60,7 +62,7 @@ The properties of divisibility mainly result from the properties of integers and
 We don't have a zero, so $a \mid 0$ doesn't apply. $1$ is $\ppn{0}$, which divides everything because zero is less than or equal to every non-negative integer. $a \mid a$ because every non-negative integer is less than or equal to itself.
 
 \subsubsection*{$a \mid 1$ if and only if $a = 1$.}
-One is $\ppn{0}$. The only way for a number to have all its digits less than or equal to $0$ is if they are all, themselves, $0$. So the number has to be $\ppn{0}$. i.e. $1$.
+One is $\ppn{0}$. The only way for a number to have all its digits less than or equal to $0$ is if they are all, themselves, $0$. So the number has to be $\ppn{0}$. \textit{i.e.} $1$.
 
 \subsubsection*{If $a \mid b$ and $c \mid d$, then $ac \mid bd$.}
 The digits of $ac$ are the sums of the corresponding digits of $a$ and $c$, as are $bd$ of $b$ and $d$. All the $a$s are less than or equal to all the $b$s, as are the $c$s to the $d$s. So, the $ac$s must be less than or equal to the $bd$s.
@@ -92,29 +94,40 @@ we find that the least common multiple is $\ppn{10114}$, or $2640$.
 
 \section*{Primes}
 
-Primes are easy to spot. They all look like $1$ followed by zero or more $0$s. They do get really long (number of digits) really quickly, however. We can get a sense by looking at the function $\pi(n)$, the number of primes not exceeding $n$. $\pi(36) = 11$, so we need $11$ places to show the list of $36$ numbers above. [Prime $31$ is a $1$ followed by ten $0$s.] $\pi(100) = 25$ and $\pi(1000) = 168$. The Prime Number Theorem tells us that we may need as many as (approximately) $n / \log n$ digits to display a number $n$ in this notation. The notation doesn't even help us find primes. Sure, you can take a prime and get the next one by adding a $0$ onto the end, but you have to know what prime that new place on the left represents before you can interpret the digits. Since we don't have lexicographic sorting, any two \textit{sequential} primes look as much like twin primes as not.
+Primes are easy to spot. They all look like $1$ followed by zero or more $0$s. They do get really long (number of digits) really quickly, however. We can get a sense by looking at the function $\pi(n)$, the number of primes not exceeding $n$. $\pi(36) = 11$, so we need $11$ places to show the list of $36$ numbers above. (Prime $31$ is a $1$ followed by ten $0$s.) $\pi(100) = 25$ and $\pi(1000) = 168$. The Prime Number Theorem tells us that we may need as many as (approximately) $n / \log n$ digits to display a number $n$ in this notation. The notation doesn't even help us find primes. Sure, you can take a prime and get the next one by adding a $0$ onto the end, but you have to know what prime that new place on the left represents before you can interpret the digits. Since we don't have lexicographic sorting, any two \textit{sequential} primes look as much like twin primes as not.
 
 A theorem like, “If $p$ is prime and $p \mid ab$, then $p \mid a$ or $p \mid b$.” has a convenient explanation. “$p$ is prime” means that it looks like a $1$ followed by only $0$s. “$p \mid ab$” means that the digit in $ab$ corresponding to the $1$ in $p$ must be at least $1$. That digit is itself the sum of the corresponding digits of $a$ and $b$. For that digit to be at least one, either $a$ or $b$ has that digit be at least one. That is, $p \mid a$ or $p \mid b$.
 
 \section*{Divisors · $\tau$, $\mu$, \& $\omega$ functions}
-In our notation, the divisors of a number are those with digits less than or equal to those of the number under consideration. The divisors of $\ppn{102}$ [20] are: $\ppn{102}$, $\ppn{101}$, $\ppn{100}$, $\ppn{2}$, $\ppn{1}$, $\ppn{0}$ [$20$, $10$, $5$, $4$, $2$, $1$]. If we want to count those divisors (the function we've been calling $\tau$), we can make the same combinatoric argument we made in class: the number of divisors is the number of ways to combine $0$\textendash$d$ for each digit $d$ of a number $n$. That is, the product of $1 + d$ for all of the digits $d$ of $n$. Looking at $\ppn{102}$ again, we get $2 \times 1 \times 3 = 6$.
+In our notation, the divisors of a number are those with digits less than or equal to those of the number under consideration. The divisors of $\ppn{102}$ (20) are: $\ppn{102}$, $\ppn{101}$, $\ppn{100}$, $\ppn{2}$, $\ppn{1}$, $\ppn{0}$ ($20$, $10$, $5$, $4$, $2$, $1$). If we want to count those divisors (the function we've been calling $\tau$), we can make the same combinatoric argument we made in class: the number of divisors is the number of ways to combine $0$\textendash$d$ for each digit $d$ of a number $n$. That is, the product of $1 + d$ for all of the digits $d$ of $n$. Looking at $\ppn{102}$ again, we get $2 \times 1 \times 3 = 6$.
 
 The $\omega$ function (number of distinct prime divisors) has an obvious interpretation: $\omega(n)$ is the number of non-zero digits in $n$. If $n = \ppn{102}$ then $\omega(n) = 2$. The Möbius $\mu$ function is similar: we count all the digits that are $1$s and assign $-1$ if that count is odd, $1$ if it is even.
 
+Even though this notation is good for computing some of these functions (I had hoped to be able to discuss Euler's $\phi$ function as a kind of complement to the $\tau$ function, but soon found that it wasn't as simple as that…), it is less good for actually doing anything with them. This leads us to:
+
 \section*{Difficulties}
-\subsection*{Congruences}
+While this notation is an interesting abstraction of the notion of expressing positive integers as a sum of powers of primes in canonical form, it should be clear at this point that it is not as expressive as place notation using powers of a base number. It's main fault seems to flow from the inability to do carry-over from one place to the next\textemdash the inability to easily get $\ppn{3}$ from $\ppn{10} + \ppn{100}$.
+
+\subsection*{Division}
+In the section on divisibility, we were only able to divide numbers into whole quotients without remainders. I was hoping that I could express quotients and remainders as a tuple to avoiding having to deal with the lack of subtraction, but that just seemed to kick the can down the road a little bit. Without remainders, we have no Euclidean Algorithm and have to do greatest common divisors “the hard way,” that is, via factoring. No Euclidean Algorithm also means no Diophantine equations. Lack of remainders leads to another big gap:
+
+\subsection*{Congruence \& Modular Arithmetic}
+How do you like $\{ \ppn{-}, \ppn{0}, \ppn{1}, \ppn{10}, \ppn{2}, \ppn{100}, \ppn{11} \}$ as a complete set of residuals, modulo $7$ [with $\ppn{-}$ standing for zero]? I think they are a mess. Without being able to work with congruences, we are unable to explore the Chinese Remainder Theorem, Fermat's Little Theorem, Euler's generalization to that theorem, and so much of what we've worked on this semester.
+
 \subsection*{Factoring}
+In order to write or interpret numbers in this notation, we need to be able to factor those numbers into their constituent primes. As we've discussed many times, this is difficult. While advances have been made (\textit{c.f.} work by Pollard; Agrawal, Kayal, \& Saxena; and the rho-method) we still rely on the difficulty of factoring to encrypt our Internet traffic and private data. Being able to use Shor's Algorithm is still waiting for the development of much more complex quantum computers than we are currently able to make.
+
+\newpage
 
 \section*{Code}
 Because factoring is hard (\textit{see the previous section}) I needed help converting numbers in and out of this notation. This is the Julia code I used to do that.
-
 \begin{verbatim}
 using Primes
 
 function to_ppn(n)
     n == 1 && return "0" # FTA exception
     x = ""
-    F = factor(n)
+    F = factor(n) # [p => k, …]
     for p in primes(n)
         if haskey(F, p)
             x *= "$(F[p])"
@@ -130,7 +143,7 @@ function parse_ppn(x)
     s == "0" && return 1 # FTA exception
     n = 1
     r = length(s)
-    P = primes(prime(r)) # array of primes <= rth prime
+    P = primes(prime(r)) # array of primes lte rth prime
     for i in 1:r
         k = Int(s[i]) - Int('0') # value for exponent
         n *= P[i]^k
